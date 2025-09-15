@@ -6,9 +6,33 @@ export const useActivities = (userId?: string) => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Check if Supabase is configured
+  const isSupabaseConfigured = import.meta.env.VITE_SUPABASE_URL && 
+    import.meta.env.VITE_SUPABASE_URL !== 'https://placeholder.supabase.co';
+
   useEffect(() => {
-    loadActivities();
-  }, [userId]);
+    if (isSupabaseConfigured) {
+      loadActivities();
+    } else {
+      loadLocalActivities();
+    }
+  }, [userId, isSupabaseConfigured]);
+
+  const loadLocalActivities = () => {
+    try {
+      setLoading(true);
+      const storedActivities = JSON.parse(localStorage.getItem('sadhna_activities') || '[]');
+      if (userId) {
+        setActivities(storedActivities.filter((a: Activity) => a.userId === userId));
+      } else {
+        setActivities(storedActivities);
+      }
+    } catch (error) {
+      console.error('Error loading local activities:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const loadActivities = async () => {
     try {
@@ -42,12 +66,33 @@ export const useActivities = (userId?: string) => {
       setActivities(transformedActivities);
     } catch (error) {
       console.error('Error loading activities:', error);
+      // Fallback to local storage on error
+      loadLocalActivities();
     } finally {
       setLoading(false);
     }
   };
 
   const addActivity = async (activity: Omit<Activity, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!isSupabaseConfigured) {
+      // Fallback to localStorage
+      const newActivity: Activity = {
+        ...activity,
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      const allActivities = JSON.parse(localStorage.getItem('sadhna_activities') || '[]');
+      allActivities.push(newActivity);
+      localStorage.setItem('sadhna_activities', JSON.stringify(allActivities));
+      
+      if (!userId || activity.userId === userId) {
+        setActivities(prev => [newActivity, ...prev]);
+      }
+      return true;
+    }
+
     try {
       const { data, error } = await supabase
         .from('activities')
@@ -87,6 +132,26 @@ export const useActivities = (userId?: string) => {
   };
 
   const updateActivity = async (id: string, updates: Partial<Activity>) => {
+    if (!isSupabaseConfigured) {
+      // Fallback to localStorage
+      const allActivities = JSON.parse(localStorage.getItem('sadhna_activities') || '[]');
+      const index = allActivities.findIndex((a: Activity) => a.id === id);
+      
+      if (index !== -1) {
+        allActivities[index] = {
+          ...allActivities[index],
+          ...updates,
+          updatedAt: new Date().toISOString(),
+        };
+        localStorage.setItem('sadhna_activities', JSON.stringify(allActivities));
+        
+        setActivities(prev => 
+          prev.map(a => a.id === id ? { ...a, ...updates, updatedAt: new Date().toISOString() } : a)
+        );
+      }
+      return true;
+    }
+
     try {
       const updateData: any = {};
       if (updates.mangalaAarti !== undefined) updateData.mangala_aarti = updates.mangalaAarti;

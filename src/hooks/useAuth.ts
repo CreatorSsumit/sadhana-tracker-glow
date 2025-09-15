@@ -9,30 +9,45 @@ export const useAuth = () => {
     user: null,
   });
   const [loading, setLoading] = useState(true);
+  const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(false);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        loadUserProfile(session.user);
-      } else {
-        setLoading(false);
-      }
-    });
+    // Check if Supabase is properly configured
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const configured = supabaseUrl && supabaseUrl !== 'https://placeholder.supabase.co';
+    setIsSupabaseConfigured(configured);
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+    if (configured) {
+      // Get initial session
+      supabase.auth.getSession().then(({ data: { session } }) => {
         if (session?.user) {
-          await loadUserProfile(session.user);
+          loadUserProfile(session.user);
         } else {
-          setAuth({ isAuthenticated: false, user: null });
           setLoading(false);
         }
-      }
-    );
+      });
 
-    return () => subscription.unsubscribe();
+      // Listen for auth changes
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (session?.user) {
+            await loadUserProfile(session.user);
+          } else {
+            setAuth({ isAuthenticated: false, user: null });
+            setLoading(false);
+          }
+        }
+      );
+
+      return () => subscription.unsubscribe();
+    } else {
+      // Fallback to localStorage for demo mode
+      const storedAuth = localStorage.getItem('sadhna_auth');
+      if (storedAuth) {
+        setAuth(JSON.parse(storedAuth));
+      }
+      setLoading(false);
+    }
   }, []);
 
   const loadUserProfile = async (supabaseUser: SupabaseUser) => {
@@ -90,6 +105,20 @@ export const useAuth = () => {
   };
 
   const login = async (email: string, password: string): Promise<boolean> => {
+    if (!isSupabaseConfigured) {
+      // Fallback to localStorage demo mode
+      const users = JSON.parse(localStorage.getItem('sadhna_users') || '[]');
+      const user = users.find((u: User) => u.email === email);
+      
+      if (user && password === 'password') {
+        const authState = { isAuthenticated: true, user };
+        setAuth(authState);
+        localStorage.setItem('sadhna_auth', JSON.stringify(authState));
+        return true;
+      }
+      return false;
+    }
+
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -105,6 +134,13 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
+    if (!isSupabaseConfigured) {
+      // Fallback to localStorage demo mode
+      setAuth({ isAuthenticated: false, user: null });
+      localStorage.removeItem('sadhna_auth');
+      return;
+    }
+
     try {
       await supabase.auth.signOut();
       setAuth({ isAuthenticated: false, user: null });
@@ -114,6 +150,27 @@ export const useAuth = () => {
   };
 
   const registerUser = async (name: string, email: string): Promise<boolean> => {
+    if (!isSupabaseConfigured) {
+      // Fallback to localStorage demo mode
+      const users = JSON.parse(localStorage.getItem('sadhna_users') || '[]');
+      
+      if (users.find((u: User) => u.email === email)) {
+        return false; // User already exists
+      }
+
+      const newUser: User = {
+        id: Date.now().toString(),
+        name,
+        email,
+        role: 'user',
+        createdAt: new Date().toISOString(),
+      };
+
+      users.push(newUser);
+      localStorage.setItem('sadhna_users', JSON.stringify(users));
+      return true;
+    }
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -132,6 +189,23 @@ export const useAuth = () => {
       return false;
     }
   };
+
+  // Initialize demo data when not using Supabase
+  useEffect(() => {
+    if (!isSupabaseConfigured) {
+      const users = JSON.parse(localStorage.getItem('sadhna_users') || '[]');
+      if (users.length === 0) {
+        const adminUser: User = {
+          id: 'admin1',
+          name: 'Admin',
+          email: 'admin@sadhna.com',
+          role: 'admin',
+          createdAt: new Date().toISOString(),
+        };
+        localStorage.setItem('sadhna_users', JSON.stringify([adminUser]));
+      }
+    }
+  }, [isSupabaseConfigured]);
 
   return { auth, login, logout, registerUser, loading };
 };
