@@ -8,110 +8,108 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Bhakti theme - Spiritual saffron, divine blue, sacred gold */
-    --background: 40 25% 98%;
-    --foreground: 15 15% 15%;
+    /* Clean modern theme - Blue and white */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 40 35% 97%;
-    --card-foreground: 15 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 40 35% 97%;
-    --popover-foreground: 15 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    /* Sacred saffron primary */
-    --primary: 25 85% 55%;
-    --primary-foreground: 40 25% 98%;
+    /* Modern blue primary */
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Soft lotus pink secondary */
-    --secondary: 340 30% 92%;
-    --secondary-foreground: 15 15% 25%;
+    /* Soft gray secondary */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 40 20% 94%;
-    --muted-foreground: 15 10% 50%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    /* Divine gold accent */
-    --accent: 45 95% 65%;
-    --accent-foreground: 15 15% 15%;
+    /* Clean accent */
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 40 25% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 40 15% 88%;
-    --input: 40 20% 94%;
-    --ring: 25 85% 55%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Spiritual gradients */
-    --gradient-divine: linear-gradient(135deg, hsl(25 85% 55%), hsl(45 95% 65%));
-    --gradient-sacred: linear-gradient(180deg, hsl(40 25% 98%), hsl(40 35% 97%));
-    --gradient-lotus: linear-gradient(45deg, hsl(340 30% 92%), hsl(40 20% 94%));
+    /* Simple gradients */
+    --gradient-divine: linear-gradient(135deg, hsl(221.2 83.2% 53.3%), hsl(221.2 83.2% 63.3%));
+    --gradient-sacred: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-lotus: linear-gradient(45deg, hsl(210 40% 96.1%), hsl(214.3 31.8% 91.4%));
 
-    /* Sacred shadows with warm glow */
-    --shadow-divine: 0 10px 40px -12px hsl(25 85% 55% / 0.25);
-    --shadow-sacred: 0 4px 20px -4px hsl(45 95% 65% / 0.15);
+    /* Clean shadows */
+    --shadow-divine: 0 10px 40px -12px hsl(221.2 83.2% 53.3% / 0.25);
+    --shadow-sacred: 0 4px 20px -4px hsl(221.2 83.2% 53.3% / 0.15);
 
-    /* Sidebar with warm temple colors */
-    --sidebar-background: 40 35% 97%;
-    --sidebar-foreground: 15 15% 25%;
-    --sidebar-primary: 25 85% 55%;
-    --sidebar-primary-foreground: 40 25% 98%;
-    --sidebar-accent: 40 20% 94%;
-    --sidebar-accent-foreground: 15 15% 25%;
-    --sidebar-border: 40 15% 88%;
-    --sidebar-ring: 25 85% 55%;
+    /* Sidebar with clean colors */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 221.2 83.2% 53.3%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 221.2 83.2% 53.3%;
   }
 
   .dark {
-    /* Dark bhakti theme - Deep temple colors */
-    --background: 15 20% 8%;
-    --foreground: 40 25% 95%;
+    /* Dark modern theme */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 15 25% 12%;
-    --card-foreground: 40 25% 95%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 15 25% 12%;
-    --popover-foreground: 40 25% 95%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Glowing saffron in dark */
-    --primary: 25 95% 65%;
-    --primary-foreground: 15 20% 8%;
+    /* Modern blue in dark */
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    /* Deep temple secondary */
-    --secondary: 15 15% 18%;
-    --secondary-foreground: 40 25% 95%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 15 15% 18%;
-    --muted-foreground: 40 10% 65%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    /* Golden accent in dark */
-    --accent: 45 85% 70%;
-    --accent-foreground: 15 20% 8%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 75% 55%;
-    --destructive-foreground: 40 25% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 15 15% 22%;
-    --input: 15 15% 18%;
-    --ring: 25 95% 65%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 217.2 91.2% 59.8%;
 
-    /* Enhanced gradients for dark mode */
-    --gradient-divine: linear-gradient(135deg, hsl(25 95% 65%), hsl(45 85% 70%));
-    --gradient-sacred: linear-gradient(180deg, hsl(15 20% 8%), hsl(15 25% 12%));
-    --gradient-lotus: linear-gradient(45deg, hsl(15 15% 18%), hsl(15 15% 22%));
+    /* Clean gradients for dark mode */
+    --gradient-divine: linear-gradient(135deg, hsl(217.2 91.2% 59.8%), hsl(217.2 91.2% 69.8%));
+    --gradient-sacred: linear-gradient(180deg, hsl(222.2 84% 4.9%), hsl(217.2 32.6% 17.5%));
+    --gradient-lotus: linear-gradient(45deg, hsl(217.2 32.6% 17.5%), hsl(217.2 32.6% 22%));
 
-    /* Glowing shadows in dark */
-    --shadow-divine: 0 10px 40px -12px hsl(25 95% 65% / 0.4);
-    --shadow-sacred: 0 4px 20px -4px hsl(45 85% 70% / 0.25);
+    /* Clean shadows in dark */
+    --shadow-divine: 0 10px 40px -12px hsl(217.2 91.2% 59.8% / 0.4);
+    --shadow-sacred: 0 4px 20px -4px hsl(217.2 91.2% 59.8% / 0.25);
 
-    --sidebar-background: 15 25% 12%;
-    --sidebar-foreground: 40 25% 90%;
-    --sidebar-primary: 25 95% 65%;
-    --sidebar-primary-foreground: 15 20% 8%;
-    --sidebar-accent: 15 15% 18%;
-    --sidebar-accent-foreground: 40 25% 90%;
-    --sidebar-border: 15 15% 22%;
-    --sidebar-ring: 25 95% 65%;
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -122,7 +120,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--card)));
+    background: linear-gradient(135deg, hsl(var(--background)), hsl(210 40% 98%));
     min-height: 100vh;
   }
 
