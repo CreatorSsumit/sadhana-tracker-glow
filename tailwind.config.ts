@@ -80,10 +80,43 @@ export default {
             height: "0",
           },
         },
+        "divine-float": {
+          "0%, 100%": {
+            transform: "translateY(0px)",
+          },
+          "50%": {
+            transform: "translateY(-4px)",
+          },
+        },
+        "sacred-pulse": {
+          "0%, 100%": {
+            opacity: "1",
+          },
+          "50%": {
+            opacity: "0.8",
+          },
+        },
+        "lotus-bloom": {
+          "0%": {
+            transform: "scale(0.95) rotate(0deg)",
+            opacity: "0.8",
+          },
+          "100%": {
+            transform: "scale(1) rotate(1deg)",
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "divine-float": "divine-float 3s ease-in-out infinite",
+        "sacred-pulse": "sacred-pulse 2s ease-in-out infinite",
+        "lotus-bloom": "lotus-bloom 0.6s ease-out",
+      },
+      fontFamily: {
+        'sanskrit': ['Noto Serif Devanagari', 'serif'],
+        'elegant': ['Playfair Display', 'serif'],
       },
     },
   },
