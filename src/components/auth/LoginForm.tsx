@@ -7,7 +7,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Flower2, Sun, Star } from 'lucide-react';
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  onSwitchToRegister: () => void;
+}
+
+export const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -107,6 +111,26 @@ export const LoginForm = () => {
               )}
             </Button>
           </form>
+
+          <div className="relative mt-8">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-primary/20" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-card px-4 text-muted-foreground">New devotee?</span>
+            </div>
+          </div>
+
+          <Button
+            variant="outline"
+            onClick={onSwitchToRegister}
+            className="w-full py-6 border-primary/20 hover:border-primary/50 transition-sacred text-lg mt-4"
+            disabled={loading}
+          >
+            <Flower2 className="w-5 h-5 mr-3 text-primary" />
+            Join Our Sacred Community
+          </Button>
+
           <div className="mt-6 p-4 gradient-lotus rounded-lg">
             <p className="text-xs text-muted-foreground text-center font-medium">
               🙏 Demo credentials for testing

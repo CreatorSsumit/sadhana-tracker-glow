@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { LoginForm } from "@/components/auth/LoginForm";
+import { AuthPage } from "@/components/auth/AuthPage";
 import { UserDashboard } from "@/components/dashboard/UserDashboard";
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,7 @@ const MainApp = () => {
   }
 
   if (!auth.isAuthenticated) {
-    return <LoginForm />;
+    return <AuthPage />;
   }
 
   return (
