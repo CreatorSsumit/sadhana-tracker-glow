@@ -50,7 +50,7 @@ const MainApp = () => {
           <div className="flex items-center gap-4">
             <div className="text-right">
               <p className="text-sm font-medium text-foreground">
-                प्रणाम, {auth.user?.name}
+                {auth.user?.name}
               </p>
               <p className="text-xs text-muted-foreground capitalize">
                 {auth.user?.role === 'admin' ? '🔱 Administrator' : '🕉️ Devotee'}
@@ -63,7 +63,7 @@ const MainApp = () => {
               className="transition-sacred hover-divine border-primary/20"
             >
               <LogOut className="h-4 w-4 mr-2" />
-              Exit Sacred Space
+              Exit
             </Button>
           </div>
         </div>
