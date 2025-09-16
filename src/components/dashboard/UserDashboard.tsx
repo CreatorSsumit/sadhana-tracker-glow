@@ -117,7 +117,7 @@ export const UserDashboard = () => {
             <CardDescription>Your efforts in spreading Krishna consciousness</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="bg-gradient-lotus p-4 rounded-lg text-center">
                 <Award className="w-8 h-8 text-primary mx-auto mb-2" />
                 <p className="text-2xl font-bold text-primary">
@@ -131,6 +131,59 @@ export const UserDashboard = () => {
                   {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0).length}
                 </p>
                 <p className="text-sm text-muted-foreground">Days with Preaching</p>
+              </div>
+            </div>
+
+            {/* List of All Joined Persons */}
+            <div className="space-y-4">
+              <h3 className="font-semibold text-foreground flex items-center gap-2">
+                <Star className="w-4 h-4 text-primary" />
+                All Joined Persons with Contact Details
+              </h3>
+              <div className="max-h-64 overflow-y-auto space-y-3">
+                {activities
+                  .filter(activity => activity.preachingContacts && activity.preachingContacts.length > 0)
+                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                  .map((activity) => (
+                    <div key={activity.id} className="border border-primary/20 rounded-lg p-3">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-accent">{format(new Date(activity.date), "MMM dd, yyyy")}</span>
+                        <span className="text-xs bg-gradient-lotus px-2 py-1 rounded-full text-primary">
+                          {activity.preachingContacts?.length || 0} contacts
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        {activity.preachingContacts?.map((contact) => (
+                          <div key={contact.id} className="bg-muted/30 p-2 rounded-lg flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Star className="w-3 h-3 text-primary" />
+                              <span className="font-medium text-sm">{contact.name}</span>
+                            </div>
+                            <div className="flex gap-3 text-xs text-muted-foreground">
+                              {contact.phone && (
+                                <span className="flex items-center gap-1">
+                                  📞 {contact.phone}
+                                </span>
+                              )}
+                              {contact.email && (
+                                <span className="flex items-center gap-1">
+                                  📧 {contact.email}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                
+                {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0).length === 0 && (
+                  <div className="text-center py-6 space-y-2">
+                    <div className="text-3xl opacity-50">🙏</div>
+                    <p className="text-sm text-muted-foreground">No preaching contacts recorded yet</p>
+                    <p className="text-xs text-muted-foreground">Start spreading Krishna consciousness and record your contacts</p>
+                  </div>
+                )}
               </div>
             </div>
           </CardContent>
