@@ -229,6 +229,123 @@ export const ActivityForm = ({ onClose, activityId }: ActivityFormProps) => {
             </div>
           </div>
 
+          {/* Bhoga Offering */}
+          <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Flower2 className="w-6 h-6 text-orange-600 animate-pulse" />
+                <div>
+                  <Label htmlFor="bhogaOffering" className="text-base font-medium text-foreground">
+                    Bhoga Offering Service
+                  </Label>
+                  <p className="text-sm text-muted-foreground">Did you offer bhoga to the deities today?</p>
+                </div>
+              </div>
+              <Switch
+                id="bhogaOffering"
+                checked={formData.bhogaOffering}
+                onCheckedChange={(checked) => 
+                  setFormData(prev => ({ ...prev, bhogaOffering: checked }))
+                }
+                className="data-[state=checked]:bg-orange-600"
+              />
+            </div>
+          </div>
+
+          {/* Preaching Contacts */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-red-600" />
+                <Label className="text-base font-medium text-foreground">
+                  Preaching Contacts
+                </Label>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const newContact = {
+                    id: Date.now().toString(),
+                    name: '',
+                    phone: '',
+                    email: '',
+                    addedDate: today
+                  };
+                  setFormData(prev => ({ 
+                    ...prev, 
+                    preachingContacts: [...prev.preachingContacts, newContact] 
+                  }));
+                }}
+                className="border-red-200 hover:border-red-400 text-red-600"
+              >
+                Add Contact
+              </Button>
+            </div>
+            
+            <div className="space-y-3 max-h-64 overflow-y-auto">
+              {formData.preachingContacts.map((contact, index) => (
+                <div key={contact.id} className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <Input
+                      placeholder="Contact Name"
+                      value={contact.name}
+                      onChange={(e) => {
+                        const updatedContacts = [...formData.preachingContacts];
+                        updatedContacts[index] = { ...contact, name: e.target.value };
+                        setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
+                      }}
+                      className="border-red-200 focus:border-red-400"
+                    />
+                    <Input
+                      placeholder="Phone (optional)"
+                      value={contact.phone || ''}
+                      onChange={(e) => {
+                        const updatedContacts = [...formData.preachingContacts];
+                        updatedContacts[index] = { ...contact, phone: e.target.value };
+                        setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
+                      }}
+                      className="border-red-200 focus:border-red-400"
+                    />
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Email (optional)"
+                        type="email"
+                        value={contact.email || ''}
+                        onChange={(e) => {
+                          const updatedContacts = [...formData.preachingContacts];
+                          updatedContacts[index] = { ...contact, email: e.target.value };
+                          setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
+                        }}
+                        className="border-red-200 focus:border-red-400"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const updatedContacts = formData.preachingContacts.filter((_, i) => i !== index);
+                          setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
+                        }}
+                        className="border-red-200 hover:border-red-400 text-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {formData.preachingContacts.length === 0 && (
+                <p className="text-center text-muted-foreground py-4 text-sm">
+                  No preaching contacts added yet. Click "Add Contact" to start tracking.
+                </p>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground">📞 Track people you shared Krishna consciousness with today</p>
+          </div>
+
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
             <Button 
