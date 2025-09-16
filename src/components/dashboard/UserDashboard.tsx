@@ -61,7 +61,7 @@ export const UserDashboard = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           <Card className="divine-glow transition-sacred hover-divine bg-gradient-lotus border-accent/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-foreground">Mangala Aarti</CardTitle>
@@ -103,6 +103,19 @@ export const UserDashboard = () => {
             <CardContent>
               <div className="text-3xl font-bold text-primary">{activities.filter(a => a.bhogaOffering).length}</div>
               <p className="text-xs text-muted-foreground mt-1">Sacred food offerings</p>
+            </CardContent>
+          </Card>
+
+          <Card className="divine-glow transition-sacred hover-divine bg-gradient-lotus border-accent/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-foreground">Preaching</CardTitle>
+              <Award className="h-6 w-6 text-accent animate-sacred-pulse" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-accent">
+                {activities.reduce((sum, a) => sum + (a.preachingContacts?.length || 0), 0)}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Persons joined</p>
             </CardContent>
           </Card>
         </div>
