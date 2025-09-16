@@ -53,10 +53,11 @@ export const UserDashboard = () => {
           </div>
           <Button 
             onClick={() => setShowActivityForm(true)}
-            className="gradient-divine hover-divine transition-sacred text-white font-semibold px-6 py-3"
+            className="gradient-divine hover-divine transition-sacred text-white font-semibold px-4 py-2 text-sm md:px-6 md:py-3 md:text-base"
           >
-            <Plus className="mr-2 h-5 w-5" />
-            Add Sacred Activity
+            <Plus className="mr-1 h-4 w-4 md:mr-2 md:h-5 md:w-5" />
+            <span className="hidden sm:inline">Add Sacred Activity</span>
+            <span className="sm:hidden">Add Activity</span>
           </Button>
         </div>
 
@@ -120,6 +121,41 @@ export const UserDashboard = () => {
           </Card>
         </div>
 
+        {/* Date Selector */}
+        <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-primary">
+              <CalendarIcon className="h-5 w-5" />
+              Select Sacred Date
+            </CardTitle>
+            <CardDescription>View your spiritual activities for any date</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal py-6 border-primary/20 hover:border-primary/50 transition-sacred",
+                    !selectedDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {selectedDate ? format(selectedDate, "PPP") : <span>Pick a sacred date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => date && setSelectedDate(date)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </CardContent>
+        </Card>
+
         {/* Preaching Activities Card */}
         <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
           <CardHeader>
@@ -130,23 +166,6 @@ export const UserDashboard = () => {
             <CardDescription>Your efforts in spreading Krishna consciousness</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="bg-gradient-lotus p-4 rounded-lg text-center">
-                <Award className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-2xl font-bold text-primary">
-                  {activities.reduce((sum, a) => sum + (a.preachingContacts?.length || 0), 0)}
-                </p>
-                <p className="text-sm text-muted-foreground">Total Contacts Made</p>
-              </div>
-              <div className="bg-gradient-lotus p-4 rounded-lg text-center">
-                <Star className="w-8 h-8 text-accent mx-auto mb-2" />
-                <p className="text-2xl font-bold text-accent">
-                  {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0).length}
-                </p>
-                <p className="text-sm text-muted-foreground">Days with Preaching</p>
-              </div>
-            </div>
-
             {/* List of All Joined Persons */}
             <div className="space-y-4">
               <h3 className="font-semibold text-foreground flex items-center gap-2">
@@ -178,11 +197,6 @@ export const UserDashboard = () => {
                                   📞 {contact.phone}
                                 </span>
                               )}
-                              {contact.email && (
-                                <span className="flex items-center gap-1">
-                                  📧 {contact.email}
-                                </span>
-                              )}
                             </div>
                           </div>
                         ))}
@@ -204,42 +218,8 @@ export const UserDashboard = () => {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Date Selector & Today's Status */}
+          {/* Today's Status */}
           <div className="space-y-6">
-            <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <CalendarIcon className="h-5 w-5" />
-                  Select Sacred Date
-                </CardTitle>
-                <CardDescription>View your spiritual activities for any date</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal py-6 border-primary/20 hover:border-primary/50 transition-sacred",
-                        !selectedDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {selectedDate ? format(selectedDate, "PPP") : <span>Pick a sacred date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={(date) => date && setSelectedDate(date)}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </CardContent>
-            </Card>
-
             <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-accent">
@@ -354,14 +334,18 @@ export const UserDashboard = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary">
                   <Award className="h-5 w-5 animate-sacred-pulse" />
-                  Preaching Contact Details
+                  Preaching Contact Details for {format(selectedDate, "PPP")}
                 </CardTitle>
-                <CardDescription>Complete list of contacts made during preaching activities</CardDescription>
+                <CardDescription>Contacts made during preaching activities on selected date</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4 max-h-96 overflow-y-auto">
                   {activities
-                    .filter(activity => activity.preachingContacts && activity.preachingContacts.length > 0)
+                    .filter(activity => 
+                      activity.preachingContacts && 
+                      activity.preachingContacts.length > 0 && 
+                      activity.date === selectedDateString
+                    )
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                     .map((activity) => (
                       <div key={activity.id} className="border border-primary/20 rounded-lg p-4">
@@ -382,9 +366,6 @@ export const UserDashboard = () => {
                                 {contact.phone && (
                                   <span>📞 {contact.phone}</span>
                                 )}
-                                {contact.email && (
-                                  <span>📧 {contact.email}</span>
-                                )}
                               </div>
                             </div>
                           ))}
@@ -392,11 +373,11 @@ export const UserDashboard = () => {
                       </div>
                     ))}
                   
-                  {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0).length === 0 && (
+                  {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0 && a.date === selectedDateString).length === 0 && (
                     <div className="text-center py-8 space-y-4">
                       <div className="text-4xl opacity-50">🙏</div>
-                      <p className="text-muted-foreground">No preaching contacts recorded yet</p>
-                      <p className="text-sm text-muted-foreground">Start spreading Krishna consciousness and record your contacts</p>
+                      <p className="text-muted-foreground">No preaching contacts recorded for this date</p>
+                      <p className="text-sm text-muted-foreground">Select a different date or add preaching activities</p>
                     </div>
                   )}
                 </div>
