@@ -62,17 +62,6 @@ export const UserDashboard = () => {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="divine-glow transition-sacred hover-divine bg-gradient-lotus border-primary/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-foreground">Total Activities</CardTitle>
-              <Award className="h-6 w-6 text-primary animate-sacred-pulse" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-primary">{activities.length}</div>
-              <p className="text-xs text-muted-foreground mt-1">Sacred practices recorded</p>
-            </CardContent>
-          </Card>
-
           <Card className="divine-glow transition-sacred hover-divine bg-gradient-lotus border-accent/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-foreground">Mangala Aarti</CardTitle>
@@ -105,7 +94,47 @@ export const UserDashboard = () => {
               <p className="text-xs text-muted-foreground mt-1">Minutes of learning</p>
             </CardContent>
           </Card>
+
+          <Card className="divine-glow transition-sacred hover-divine bg-gradient-lotus border-primary/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-foreground">Bhoga Offerings</CardTitle>
+              <Flower2 className="h-6 w-6 text-primary animate-sacred-pulse" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-primary">{activities.filter(a => a.bhogaOffering).length}</div>
+              <p className="text-xs text-muted-foreground mt-1">Sacred food offerings</p>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Preaching Activities Card */}
+        <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-primary">
+              <Award className="h-5 w-5 animate-sacred-pulse" />
+              Preaching Activities Summary
+            </CardTitle>
+            <CardDescription>Your efforts in spreading Krishna consciousness</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gradient-lotus p-4 rounded-lg text-center">
+                <Award className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-2xl font-bold text-primary">
+                  {activities.reduce((sum, a) => sum + (a.preachingContacts?.length || 0), 0)}
+                </p>
+                <p className="text-sm text-muted-foreground">Total Contacts Made</p>
+              </div>
+              <div className="bg-gradient-lotus p-4 rounded-lg text-center">
+                <Star className="w-8 h-8 text-accent mx-auto mb-2" />
+                <p className="text-2xl font-bold text-accent">
+                  {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0).length}
+                </p>
+                <p className="text-sm text-muted-foreground">Days with Preaching</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -228,6 +257,16 @@ export const UserDashboard = () => {
                               <Clock className="w-3 h-3" />
                               Lecture: {activity.lectureDuration} minutes
                             </p>
+                            <p className="flex items-center gap-2">
+                              <Flower2 className="w-3 h-3" />
+                              Bhoga: {activity.bhogaOffering ? "🍽️ Offered" : "⏰ Not offered"}
+                            </p>
+                            {activity.preachingContacts && activity.preachingContacts.length > 0 && (
+                              <p className="flex items-center gap-2">
+                                <Award className="w-3 h-3" />
+                                Preaching: {activity.preachingContacts.length} contacts
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -238,6 +277,60 @@ export const UserDashboard = () => {
                       <div className="text-4xl opacity-50">🌱</div>
                       <p className="text-muted-foreground">Begin your spiritual journey today</p>
                       <p className="text-sm text-muted-foreground">Record your first sacred activity to see progress here</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Detailed Preaching Contacts List */}
+            <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-primary">
+                  <Award className="h-5 w-5 animate-sacred-pulse" />
+                  Preaching Contact Details
+                </CardTitle>
+                <CardDescription>Complete list of contacts made during preaching activities</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 max-h-96 overflow-y-auto">
+                  {activities
+                    .filter(activity => activity.preachingContacts && activity.preachingContacts.length > 0)
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                    .map((activity) => (
+                      <div key={activity.id} className="border border-primary/20 rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h4 className="font-semibold text-foreground">{format(new Date(activity.date), "PPP")}</h4>
+                          <span className="text-sm bg-gradient-lotus px-3 py-1 rounded-full text-primary">
+                            {activity.preachingContacts?.length || 0} contacts
+                          </span>
+                        </div>
+                        <div className="space-y-2">
+                          {activity.preachingContacts?.map((contact) => (
+                            <div key={contact.id} className="bg-muted/50 p-3 rounded-lg">
+                              <div className="flex items-center gap-2 mb-1">
+                                <Star className="w-4 h-4 text-primary" />
+                                <span className="font-medium">{contact.name}</span>
+                              </div>
+                              <div className="flex gap-4 text-sm text-muted-foreground">
+                                {contact.phone && (
+                                  <span>📞 {contact.phone}</span>
+                                )}
+                                {contact.email && (
+                                  <span>📧 {contact.email}</span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  
+                  {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0).length === 0 && (
+                    <div className="text-center py-8 space-y-4">
+                      <div className="text-4xl opacity-50">🙏</div>
+                      <p className="text-muted-foreground">No preaching contacts recorded yet</p>
+                      <p className="text-sm text-muted-foreground">Start spreading Krishna consciousness and record your contacts</p>
                     </div>
                   )}
                 </div>

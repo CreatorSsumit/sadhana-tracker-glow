@@ -73,12 +73,12 @@ export const AdminDashboard = () => {
 
           <Card className="divine-glow transition-sacred hover-divine bg-gradient-lotus border-accent/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-foreground">Divine Activities</CardTitle>
-              <Activity className="h-6 w-6 text-accent animate-sacred-pulse" />
+              <CardTitle className="text-sm font-medium text-foreground">Bhoga Offerings</CardTitle>
+              <Flower2 className="h-6 w-6 text-accent animate-sacred-pulse" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-accent">{activities.length}</div>
-              <p className="text-xs text-muted-foreground mt-1">✨ Total spiritual practices</p>
+              <div className="text-3xl font-bold text-accent">{activities.filter(a => a.bhogaOffering).length}</div>
+              <p className="text-xs text-muted-foreground mt-1">🍽️ Sacred food offerings</p>
             </CardContent>
           </Card>
 
