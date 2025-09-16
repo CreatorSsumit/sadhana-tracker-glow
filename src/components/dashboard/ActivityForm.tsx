@@ -84,8 +84,8 @@ export const ActivityForm = ({ onClose, activityId }: ActivityFormProps) => {
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-2xl divine-glow bg-card/95 backdrop-blur-sm border-primary/20">
-        <DialogHeader className="space-y-4 pb-6">
+      <DialogContent className="sm:max-w-xl max-h-[85vh] overflow-y-auto divine-glow bg-card/95 backdrop-blur-sm border-primary/20">
+        <DialogHeader className="space-y-3 pb-4">
           <div className="flex items-center justify-center mb-4">
             <div className="relative">
               <div className="bg-gradient-divine p-3 rounded-full">
@@ -95,20 +95,15 @@ export const ActivityForm = ({ onClose, activityId }: ActivityFormProps) => {
             </div>
           </div>
           
-          <DialogTitle className="text-2xl font-elegant text-center bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <DialogTitle className="text-xl font-elegant text-center bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             {getActivityByDate(today) ? "🌸 Update Sacred Practice" : "🌅 Record Divine Activity"}
           </DialogTitle>
-          <DialogDescription className="text-center text-base">
-            Document your spiritual journey for today ({new Date(today).toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })})
+          <DialogDescription className="text-center text-sm">
+            Document your spiritual journey for today
           </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Mangala Aarti */}
           <div className="bg-gradient-lotus p-4 rounded-lg border border-primary/10">
             <div className="flex items-center justify-between">
@@ -284,57 +279,46 @@ export const ActivityForm = ({ onClose, activityId }: ActivityFormProps) => {
               </Button>
             </div>
             
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-48 overflow-y-auto">
               {formData.preachingContacts.map((contact, index) => (
-                <div key={contact.id} className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <Input
-                      placeholder="Contact Name"
-                      value={contact.name}
-                      onChange={(e) => {
-                        const updatedContacts = [...formData.preachingContacts];
-                        updatedContacts[index] = { ...contact, name: e.target.value };
-                        setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
-                      }}
-                      className="border-red-200 focus:border-red-400"
-                    />
-                    <Input
-                      placeholder="Phone (optional)"
-                      value={contact.phone || ''}
-                      onChange={(e) => {
-                        const updatedContacts = [...formData.preachingContacts];
-                        updatedContacts[index] = { ...contact, phone: e.target.value };
-                        setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
-                      }}
-                      className="border-red-200 focus:border-red-400"
-                    />
-                    <div className="flex gap-2">
+                  <div key={contact.id} className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 p-3 rounded-lg border border-red-200 dark:border-red-800">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <Input
-                        placeholder="Email (optional)"
-                        type="email"
-                        value={contact.email || ''}
+                        placeholder="Contact Name"
+                        value={contact.name}
                         onChange={(e) => {
                           const updatedContacts = [...formData.preachingContacts];
-                          updatedContacts[index] = { ...contact, email: e.target.value };
+                          updatedContacts[index] = { ...contact, name: e.target.value };
                           setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
                         }}
                         className="border-red-200 focus:border-red-400"
                       />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          const updatedContacts = formData.preachingContacts.filter((_, i) => i !== index);
-                          setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
-                        }}
-                        className="border-red-200 hover:border-red-400 text-red-600"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Phone (optional)"
+                          value={contact.phone || ''}
+                          onChange={(e) => {
+                            const updatedContacts = [...formData.preachingContacts];
+                            updatedContacts[index] = { ...contact, phone: e.target.value };
+                            setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
+                          }}
+                          className="border-red-200 focus:border-red-400"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const updatedContacts = formData.preachingContacts.filter((_, i) => i !== index);
+                            setFormData(prev => ({ ...prev, preachingContacts: updatedContacts }));
+                          }}
+                          className="border-red-200 hover:border-red-400 text-red-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
               ))}
               
               {formData.preachingContacts.length === 0 && (

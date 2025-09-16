@@ -145,6 +145,15 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
               {activity.lectureDuration >= 30 ? 'Excellent' : activity.lectureDuration > 0 ? 'Good' : 'Not Done'}
             </div>
           </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm">🙏 Preaching Contacts</span>
+            <div className={`px-2 py-1 rounded-full text-xs ${
+              (activity.preachingContacts?.length || 0) > 0 ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
+            }`}>
+              {(activity.preachingContacts?.length || 0) > 0 ? `${activity.preachingContacts?.length} joined` : 'None'}
+            </div>
+          </div>
         </div>
       </div>
 
