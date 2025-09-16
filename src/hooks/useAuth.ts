@@ -114,6 +114,8 @@ export const useAuth = () => {
         const authState = { isAuthenticated: true, user };
         setAuth(authState);
         localStorage.setItem('sadhna_auth', JSON.stringify(authState));
+        // Navigate to dashboard after successful login
+        window.location.reload(); // This will trigger a re-render with authenticated state
         return true;
       }
       return false;

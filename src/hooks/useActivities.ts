@@ -59,6 +59,8 @@ export const useActivities = (userId?: string) => {
         lectureDuration: item.lecture_duration,
         wakeUpTime: item.wake_up_time || '',
         sleepTime: item.sleep_time || '',
+        bhogaOffering: item.bhoga_offering || false,
+        preachingContacts: item.preaching_contacts || [],
         createdAt: item.created_at,
         updatedAt: item.updated_at,
       })) || [];
@@ -104,6 +106,8 @@ export const useActivities = (userId?: string) => {
           lecture_duration: activity.lectureDuration,
           wake_up_time: activity.wakeUpTime || '',
           sleep_time: activity.sleepTime || '',
+          bhoga_offering: activity.bhogaOffering || false,
+          preaching_contacts: activity.preachingContacts || [],
         })
         .select()
         .single();
@@ -119,6 +123,8 @@ export const useActivities = (userId?: string) => {
         lectureDuration: data.lecture_duration,
         wakeUpTime: data.wake_up_time || '',
         sleepTime: data.sleep_time || '',
+        bhogaOffering: data.bhoga_offering || false,
+        preachingContacts: data.preaching_contacts || [],
         createdAt: data.created_at,
         updatedAt: data.updated_at,
       };
@@ -159,6 +165,8 @@ export const useActivities = (userId?: string) => {
       if (updates.lectureDuration !== undefined) updateData.lecture_duration = updates.lectureDuration;
       if (updates.wakeUpTime !== undefined) updateData.wake_up_time = updates.wakeUpTime;
       if (updates.sleepTime !== undefined) updateData.sleep_time = updates.sleepTime;
+      if (updates.bhogaOffering !== undefined) updateData.bhoga_offering = updates.bhogaOffering;
+      if (updates.preachingContacts !== undefined) updateData.preaching_contacts = updates.preachingContacts;
 
       const { error } = await supabase
         .from('activities')

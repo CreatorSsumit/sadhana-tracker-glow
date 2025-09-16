@@ -41,16 +41,16 @@ export const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-      {/* Simple floating elements */}
+    <div className="min-h-screen flex items-center justify-center p-4 gradient-sacred">
+      {/* Bhakti floating elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Sun className="absolute top-20 left-20 w-6 h-6 text-primary/20 animate-pulse" />
-        <Flower2 className="absolute top-40 right-32 w-8 h-8 text-primary/30 animate-pulse" />
-        <Star className="absolute bottom-32 left-32 w-4 h-4 text-primary/40 animate-pulse" />
-        <Star className="absolute bottom-20 right-20 w-6 h-6 text-primary/30 animate-pulse" />
+        <Sun className="absolute top-20 left-20 w-6 h-6 text-primary/30 animate-pulse" />
+        <Flower2 className="absolute top-40 right-32 w-8 h-8 text-accent/40 animate-pulse" />
+        <Star className="absolute bottom-32 left-32 w-4 h-4 text-primary/50 animate-pulse" />
+        <Star className="absolute bottom-20 right-20 w-6 h-6 text-accent/40 animate-pulse" />
       </div>
 
-      <Card className="w-full max-w-md shadow-lg border">
+      <Card className="w-full max-w-md divine-glow border-primary/20">
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center mb-4">
             <div className="relative">

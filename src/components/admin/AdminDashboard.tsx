@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Plus, Users, Activity, Crown, TrendingUp, Calendar, Filter, Flower2, Sun, Star } from 'lucide-react';
 import { UserRegistrationForm } from './UserRegistrationForm';
 import { AllUsersReport } from './AllUsersReport';
+import { BhogaReport } from './BhogaReport';
+import { PreachingReport } from './PreachingReport';
 import { useActivities } from '@/hooks/useActivities';
 
 export const AdminDashboard = () => {
@@ -160,6 +162,12 @@ export const AdminDashboard = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Reports Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <BhogaReport />
+          <PreachingReport />
+        </div>
 
         {/* Sacred Reports */}
         <AllUsersReport 

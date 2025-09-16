@@ -69,8 +69,8 @@ export const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
           </div>
           
           <div className="space-y-3">
-            <CardTitle className="text-4xl font-elegant bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Join Our Sacred Community
+            <CardTitle className="text-4xl font-bold gradient-divine bg-clip-text text-transparent">
+              Bhakti Registration
             </CardTitle>
             <CardDescription className="text-lg text-muted-foreground leading-relaxed">
               🌸 Begin your spiritual journey with us <br />

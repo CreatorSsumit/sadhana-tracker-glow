@@ -15,8 +15,18 @@ export interface Activity {
   lectureDuration: number; // in minutes
   wakeUpTime: string;
   sleepTime: string;
+  bhogaOffering: boolean;
+  preachingContacts: PreachingContact[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface PreachingContact {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  addedDate: string;
 }
 
 export interface AuthState {

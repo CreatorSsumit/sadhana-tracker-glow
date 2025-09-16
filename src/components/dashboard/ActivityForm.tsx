@@ -26,6 +26,8 @@ export const ActivityForm = ({ onClose, activityId }: ActivityFormProps) => {
     lectureDuration: 0,
     wakeUpTime: '',
     sleepTime: '',
+    bhogaOffering: false,
+    preachingContacts: [] as any[],
   });
 
   useEffect(() => {
@@ -38,6 +40,8 @@ export const ActivityForm = ({ onClose, activityId }: ActivityFormProps) => {
           lectureDuration: activity.lectureDuration,
           wakeUpTime: activity.wakeUpTime,
           sleepTime: activity.sleepTime,
+          bhogaOffering: activity.bhogaOffering || false,
+          preachingContacts: activity.preachingContacts || [],
         });
       }
     }
