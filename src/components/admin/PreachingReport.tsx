@@ -90,12 +90,12 @@ export const PreachingReport = () => {
                             {contact.phone}
                           </div>
                         )}
-                        {contact.email && (
+                        {/* {contact.email && (
                           <div className="flex items-center gap-1">
                             <Mail className="w-3 h-3" />
                             {contact.email}
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   ))}

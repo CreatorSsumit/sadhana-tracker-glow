@@ -38,6 +38,11 @@ export const UserDashboard = () => {
         {/* Welcome Header */}
         <div className="flex flex-wrap items-center justify-between bg-card/80 backdrop-blur-sm rounded-2xl p-6 divine-glow">
           <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="bg-gradient-divine p-3 rounded-full">
+                <Flower2 className="w-8 h-8 text-white animate-divine-float" />
+              </div>
+            </div>
             <div>
               <h1 className="text-4xl font-elegant bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 प्रणाम, {auth.user?.name}
