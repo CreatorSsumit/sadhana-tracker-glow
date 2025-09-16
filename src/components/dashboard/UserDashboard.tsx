@@ -228,7 +228,62 @@ export const UserDashboard = () => {
             </CardContent>
           </Card>
 
+          {/* Detailed Preaching Contacts List */}
           <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-primary">
+                <Award className="h-5 w-5 animate-sacred-pulse" />
+                Preaching Contact Details for {format(selectedDate, "PPP")}
+              </CardTitle>
+              <CardDescription>Contacts made during preaching activities on selected date</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {activities
+                  .filter(activity => 
+                    activity.preachingContacts && 
+                    activity.preachingContacts.length > 0 && 
+                    activity.date === selectedDateString
+                  )
+                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                  .map((activity) => (
+                    <div key={activity.id} className="border border-primary/20 rounded-lg p-4">
+                      <div className="flex justify-between items-center mb-3">
+                        <h4 className="font-semibold text-foreground">{format(new Date(activity.date), "PPP")}</h4>
+                        <span className="text-sm bg-gradient-lotus px-3 py-1 rounded-full text-primary">
+                          {activity.preachingContacts?.length || 0} contacts
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        {activity.preachingContacts?.map((contact) => (
+                          <div key={contact.id} className="bg-muted/50 p-3 rounded-lg">
+                            <div className="flex items-center gap-2 mb-1">
+                              <Star className="w-4 h-4 text-primary" />
+                              <span className="font-medium">{contact.name}</span>
+                            </div>
+                            <div className="flex gap-4 text-sm text-muted-foreground">
+                              {contact.phone && (
+                                <span>📞 {contact.phone}</span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                
+                {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0 && a.date === selectedDateString).length === 0 && (
+                  <div className="text-center py-8 space-y-4">
+                    <div className="text-4xl opacity-50">🙏</div>
+                    <p className="text-muted-foreground">No preaching contacts recorded for this date</p>
+                    <p className="text-sm text-muted-foreground">Select a different date or add preaching activities</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+           <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-accent">
                 <Flower2 className="h-5 w-5 animate-divine-float" />
@@ -279,61 +334,6 @@ export const UserDashboard = () => {
                     <div className="text-4xl opacity-50">🌱</div>
                     <p className="text-muted-foreground">Begin your spiritual journey today</p>
                     <p className="text-sm text-muted-foreground">Record your first sacred activity to see progress here</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Detailed Preaching Contacts List */}
-          <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-primary">
-                <Award className="h-5 w-5 animate-sacred-pulse" />
-                Preaching Contact Details for {format(selectedDate, "PPP")}
-              </CardTitle>
-              <CardDescription>Contacts made during preaching activities on selected date</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4 max-h-96 overflow-y-auto">
-                {activities
-                  .filter(activity => 
-                    activity.preachingContacts && 
-                    activity.preachingContacts.length > 0 && 
-                    activity.date === selectedDateString
-                  )
-                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                  .map((activity) => (
-                    <div key={activity.id} className="border border-primary/20 rounded-lg p-4">
-                      <div className="flex justify-between items-center mb-3">
-                        <h4 className="font-semibold text-foreground">{format(new Date(activity.date), "PPP")}</h4>
-                        <span className="text-sm bg-gradient-lotus px-3 py-1 rounded-full text-primary">
-                          {activity.preachingContacts?.length || 0} contacts
-                        </span>
-                      </div>
-                      <div className="space-y-2">
-                        {activity.preachingContacts?.map((contact) => (
-                          <div key={contact.id} className="bg-muted/50 p-3 rounded-lg">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Star className="w-4 h-4 text-primary" />
-                              <span className="font-medium">{contact.name}</span>
-                            </div>
-                            <div className="flex gap-4 text-sm text-muted-foreground">
-                              {contact.phone && (
-                                <span>📞 {contact.phone}</span>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                
-                {activities.filter(a => a.preachingContacts && a.preachingContacts.length > 0 && a.date === selectedDateString).length === 0 && (
-                  <div className="text-center py-8 space-y-4">
-                    <div className="text-4xl opacity-50">🙏</div>
-                    <p className="text-muted-foreground">No preaching contacts recorded for this date</p>
-                    <p className="text-sm text-muted-foreground">Select a different date or add preaching activities</p>
                   </div>
                 )}
               </div>
