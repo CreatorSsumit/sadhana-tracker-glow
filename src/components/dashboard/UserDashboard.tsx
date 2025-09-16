@@ -37,7 +37,7 @@ export const UserDashboard = () => {
       <div className="relative z-10 space-y-8 p-6">
         {/* Welcome Header */}
         <div className="flex flex-wrap items-center justify-between bg-card/80 backdrop-blur-sm rounded-2xl p-6 divine-glow">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <div className="relative">
               <div className="bg-gradient-divine p-3 rounded-full">
                 <Flower2 className="w-8 h-8 text-white animate-divine-float" />
