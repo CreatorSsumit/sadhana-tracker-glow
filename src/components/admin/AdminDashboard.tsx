@@ -105,7 +105,13 @@ export const AdminDashboard = () => {
           </Card>
         </div>
 
-        {/* Sacred Filters */}
+        {/* Reports Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <BhogaReport />
+          <PreachingReport />
+        </div>
+
+         {/* Sacred Filters */}
         <Card className="divine-glow transition-sacred hover-divine bg-card/90 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-primary">
@@ -162,12 +168,6 @@ export const AdminDashboard = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Reports Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <BhogaReport />
-          <PreachingReport />
-        </div>
 
         {/* Sacred Reports */}
         <AllUsersReport 
