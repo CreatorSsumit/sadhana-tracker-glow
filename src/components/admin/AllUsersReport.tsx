@@ -1,10 +1,13 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useActivities } from '@/hooks/useActivities';
-import { User, Activity } from '@/types';
+import { User, Activity, PreachingContact } from '@/types';
 import { format } from 'date-fns';
+import { Eye, Users, Phone } from 'lucide-react';
 
 interface AllUsersReportProps {
   searchTerm: string;
@@ -15,6 +18,8 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
   const { activities } = useActivities();
   const users: User[] = JSON.parse(localStorage.getItem('sadhna_users') || '[]')
     .filter((u: User) => u.role !== 'admin');
+  const [selectedContacts, setSelectedContacts] = useState<PreachingContact[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredData = useMemo(() => {
     let filteredActivities = activities;
@@ -46,12 +51,20 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
 
   const getUserStats = (userId: string) => {
     const userActivities = filteredData.activities.filter(a => a.userId === userId);
+    const allContacts = userActivities.flatMap(a => a.preachingContacts || []);
     return {
       totalActivities: userActivities.length,
       mangalaAartiCount: userActivities.filter(a => a.mangalaAarti).length,
       totalJapaRounds: userActivities.reduce((sum, a) => sum + a.japaRounds, 0),
       totalLectureDuration: userActivities.reduce((sum, a) => sum + a.lectureDuration, 0),
+      preachingContacts: allContacts.length,
+      preachingContactsList: allContacts,
     };
+  };
+
+  const handleViewContacts = (contacts: PreachingContact[]) => {
+    setSelectedContacts(contacts);
+    setIsModalOpen(true);
   };
 
   return (
@@ -74,6 +87,7 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
                 <TableHead>Mangala Aarti</TableHead>
                 <TableHead>Total Japa Rounds</TableHead>
                 <TableHead>Lecture Duration</TableHead>
+                <TableHead>Preaching Contacts</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -93,12 +107,27 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
                     </TableCell>
                     <TableCell>{stats.totalJapaRounds}</TableCell>
                     <TableCell>{stats.totalLectureDuration} min</TableCell>
+                    <TableCell>
+                      {stats.preachingContacts > 0 ? (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleViewContacts(stats.preachingContactsList)}
+                          className="flex items-center gap-1 h-8 px-2 text-primary hover:text-primary"
+                        >
+                          <Eye className="w-4 h-4" />
+                          {stats.preachingContacts}
+                        </Button>
+                      ) : (
+                        <span className="text-muted-foreground">0</span>
+                      )}
+                    </TableCell>
                   </TableRow>
                 );
               })}
               {filteredData.users.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-muted-foreground">
+                  <TableCell colSpan={7} className="text-center text-muted-foreground">
                     No users found
                   </TableCell>
                 </TableRow>
@@ -124,6 +153,7 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
                 <TableHead>Lecture Duration</TableHead>
                 <TableHead>Wake Up</TableHead>
                 <TableHead>Sleep</TableHead>
+                <TableHead>Preaching</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,12 +175,27 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
                       <TableCell>{activity.lectureDuration} min</TableCell>
                       <TableCell>{activity.wakeUpTime || "-"}</TableCell>
                       <TableCell>{activity.sleepTime || "-"}</TableCell>
+                      <TableCell>
+                        {activity.preachingContacts && activity.preachingContacts.length > 0 ? (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleViewContacts(activity.preachingContacts)}
+                            className="flex items-center gap-1 h-8 px-2 text-primary hover:text-primary"
+                          >
+                            <Eye className="w-4 h-4" />
+                            {activity.preachingContacts.length}
+                          </Button>
+                        ) : (
+                          <span className="text-muted-foreground">0</span>
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
               {filteredData.activities.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-muted-foreground">
+                  <TableCell colSpan={8} className="text-center text-muted-foreground">
                     No activities found
                   </TableCell>
                 </TableRow>
@@ -159,6 +204,43 @@ export const AllUsersReport = ({ searchTerm, dateRange }: AllUsersReportProps) =
           </Table>
         </CardContent>
       </Card>
+
+      {/* Preaching Contacts Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-primary">
+              <Users className="w-5 h-5" />
+              Preaching Contacts ({selectedContacts.length})
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 mt-4">
+            {selectedContacts.length > 0 ? (
+              selectedContacts.map((contact) => (
+                <div key={contact.id} className="bg-muted/50 p-3 rounded-lg border border-primary/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Users className="w-4 h-4 text-primary" />
+                    <span className="font-medium text-foreground">{contact.name}</span>
+                  </div>
+                  <div className="space-y-1 text-sm text-muted-foreground">
+                    {contact.phone && (
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-3 h-3" />
+                        {contact.phone}
+                      </div>
+                    )}
+                    <div className="text-xs">
+                      Added: {format(new Date(contact.addedDate), 'MMM dd, yyyy')}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-muted-foreground py-4">No contacts found</p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
